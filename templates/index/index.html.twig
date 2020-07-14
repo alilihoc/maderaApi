@@ -1,0 +1,124 @@
+{% extends 'layout.html.twig' %}
+{% set active = 'index' %}
+{% set active_link = 'index' %}
+{% block page_title %}
+    Accueil
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+{% endblock %}
+
+    {% block content %}
+        <!--preload-->
+
+        {% if app.session.get("loader") == null %}
+            <div class="loader" id="page-loader">
+                <div class="loading-wrapper">
+                    <img src="{{ asset('img/house/favicon.png') }}" alt="image du loader">
+                </div>
+            </div>
+        {% endif %}
+
+        {{ app.session.set('loader', 1) }}
+
+        <main class="no-bg ">
+            <section id="accueil animated fadeIn">
+
+                <div class="container">
+                    <div class="row">
+                        <div id="bloc_bienvenue">
+                            <img class="img-responsive" src="{{ asset('img/house/casa_index.jpg') }}" alt="bombes de peinture">
+                            <div class="col-xs-12 col-sm-6 col-md-5" id="bloc_texte_bienvenue">
+
+                                <h1 class="col-xs-8">Bienvenue dans l'univers de <span class="bleu_canard">Madera</span>, la maison du futur. </h1>
+                            </div>
+                        </div>
+
+                    </div> <!-- /.row -->
+
+                </div> <!-- /.contanier -->
+
+            </section> <!-- /#accueil -->
+
+            <section id="artiste">
+
+            </section> <!-- /#artiste -->
+
+
+            <section id="contact">
+
+                <div class="container" id="contact_form">
+
+                    <div class="col-xs-12 col-sm-6 form-signin">
+                        <h1 class="form-signin-heading text-muted">Contactez Nous</h1>
+                        {% form_theme form 'bootstrap_4_layout.html.twig' %}
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+
+                    <div class=" col-xs-12 col-sm-6 adresse_galerie">
+                        <p>Parc de La Vatine, 1 Rue Guglielmo Marconi, 76130 Mont-Saint-Aignan</p>
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+            </section> <!-- /#contact -->
+
+        </main>
+
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block final_javascripts %}
+  
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+        integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+            crossorigin=""></script>
+<script type="text/javascript">
+
+   $(document).ready(function () {
+
+        // GOOGLE MAP sur la galerie
+       let center = [49.475273,1.0930323];
+       let map = L.map('map').setView(center, 14);
+       let token = "pk.eyJ1IjoiYWxpbGlob2MiLCJhIjoiY2pwbnhzMWJuMDdjNDQ4cDE2d3p1NXpyMCJ9.ajH7-kN_dNjTa35ItfjJnQ";
+       L.tileLayer(`https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=${token}`).addTo(map);
+       L.marker(center).addTo(map);
+   });
+
+   {% if not form.vars.valid %}
+       window.location.hash = 'contact_form';
+   {% endif %}
+
+   $(window).scroll(function () {
+        let scroll = $(window).scrollTop();
+        let $artisteLink = $("#lienArtiste");
+        if (scroll > 750 && scroll < 1450)  {
+            $artisteLink.addClass("active_link");
+        } else {
+            $artisteLink.removeClass("active_link");
+        }
+
+        if (scroll > 1500) {
+            $artisteLink.addClass("active_link");
+        } else {
+            $artisteLink.removeClass("active_link");
+        }
+        {% if not form.vars.valid %}
+        window.location.hash = 'contact_form';
+        {% endif %}
+   });
+
+</script>  
+   
+
+{% endblock %}

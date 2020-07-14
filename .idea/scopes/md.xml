@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="md" pattern="!file[MaderaApi]:.idea//*&amp;&amp;!file[MaderaApi]:bin//*&amp;&amp;!file[MaderaApi]:config//*&amp;&amp;!file[MaderaApi]:migrations//*&amp;&amp;!file[MaderaApi]:public//*&amp;&amp;!file[MaderaApi]:var//*&amp;&amp;!file[MaderaApi]:vendor//*||file[MaderaApi]:src//*" />
+</component>

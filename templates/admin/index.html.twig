@@ -1,0 +1,39 @@
+{% extends "layout.html.twig" %}
+{% set active = 'admin_index' %}
+{% set active_link = 'administration' %}
+{% block page_title %} Mon Compte{% endblock %}
+
+{% block content %}
+
+    <main class="no-bg">
+        <div class="container">
+            <div class="row">
+                {# Navigation de l'admin#}
+                {% include "admin/adminComp/_navigation.html.twig" %}
+
+                            <!-- Contenu du dashboard -->
+                                <div class="col-xs-12 col-md-8">
+                        
+                                    <div class="content-box-header">
+                                        <div class="panel-title titre-moncompte"><p>Bonjour,</p></div>
+                                    </div>
+
+
+                                    <div class="content-box-large box-with-header">
+                                        <p>&#192 ce jour, vous avez :</p>
+                                        <ul class="recap animated fadeIn">
+                                            <li><a href=""><i class="glyphicon glyphicon-user bleu"></i><p>{{ data.nbCustomers}} clients enregistr&#233;s</p></a></li>
+                                            <li><a href=""><i class="glyphicon glyphicon-user vert"></i><p>{{ data.nbSalers}} commerciaux enregistr&#233;s</p></a></li>
+                                            <li><a href=""><i class="glyphicon glyphicon-record vert"></i><p>{{ data.nbProjects }} projects </p></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div> <!-- /.row -->
+        </div>
+    </main>
+
+{% endblock %}

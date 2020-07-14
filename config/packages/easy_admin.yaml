@@ -1,0 +1,16 @@
+easy_admin:
+  entities:
+    # change the following to the namespaces of your own entities
+    - App\Entity\User
+    - App\Entity\Customer
+    - App\Entity\Project
+    - App\Entity\Gamme
+    - App\Entity\Plan
+    - App\Entity\Quotation
+    - App\Entity\Module
+    - App\Entity\Type
+    - App\Entity\Floor
+    - App\Entity\Isolation
+    - App\Entity\Structure
+    - App\Entity\Coverage
+    - App\Entity\Finition

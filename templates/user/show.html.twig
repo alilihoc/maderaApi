@@ -1,0 +1,77 @@
+{% extends "layout.html.twig" %}
+{% set active = 'commerciaux' %}
+{% set active_link = 'commerciaux' %}
+{% block page_title %} Commerciaux {% endblock %}
+
+{% block content %}
+
+    <main class="no-bg">
+        <div class="container">
+            <div class="row">
+                {# Navigation de l'admin#}
+                {% include "admin/adminComp/_navigation.html.twig" %}
+
+                <div class=" col-xs-12 col-md-8">
+
+                    <div class="content-box-header">
+                        <div class="panel-title titre-moncompte"> <h2>Commercial</h2></div>
+                    </div>
+                    <div class="oeuvre content-box-large box-with-header">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ user.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Firstname</th>
+                                <td>{{ user.firstname }}</td>
+                            </tr>
+                            <tr>
+                                <th>Lastname</th>
+                                <td>{{ user.lastname }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Adress</th>
+                                <td>{{ user.adress }}</td>
+                            </tr>
+                            <tr>
+                                <th>City</th>
+                                <td>{{ user.city }}</td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                                <td>{{ user.country }}</td>
+                            </tr>
+                            <tr>
+                                <th>PostalCode</th>
+                                <td>{{ user.postalCode }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ user.phone }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </section>
+        </div>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
