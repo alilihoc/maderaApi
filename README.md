@@ -1,20 +1,20 @@
 # maderaApi
 
-# Initialisation
+## Initialisation
 
-Aller dans le projet et lancer composer install
+Aller dans le projet et lancer `composer install`
+## Init db
 
-# Init db
+`php bin/console doctrine:database:create`
 
-php bin/console doctrine:database:create
+## Migrer nos entités
 
-# Migrer nos entités
+`php bin/console doctrine:migration:migrate`
 
-php bin/console doctrine:migration:migrate
 
-# Lancer prijet 
+## Lancer prijet 
 
-symfony server:start
+`symfony server:start`
 
 # Api URL 
 
