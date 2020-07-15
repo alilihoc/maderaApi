@@ -12,7 +12,7 @@ Aller dans le projet et lancer `composer install`
 `php bin/console doctrine:migration:migrate`
 
 
-## Lancer prijet 
+## Lancer projet 
 
 `symfony server:start`
 
