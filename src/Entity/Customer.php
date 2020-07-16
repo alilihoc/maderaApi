@@ -12,14 +12,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  * @ApiResource(
  *     normalizationContext={"groups"={"customer:project"}},
- *     collectionOperations={
- *        "get",
- *        "post"={
- *          "denormalizationContext"={"groups"={"post:project"}}
- *        }
- *     },
+ *     collectionOperations={"get","post"},
  *     itemOperations={"get"},
  *     paginationClientEnabled=false)
+ *
  */
 class Customer
 {

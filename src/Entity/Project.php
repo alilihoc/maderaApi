@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={"get"}
  * )
  * @ApiFilter(SearchFilter::class,
- *     properties={"user": "exact", "name"="partial", "customer.fistname"="partial"})
+ *     properties={"user": "exact", "name"="partial"})
  */
 class Project
 {
