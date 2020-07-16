@@ -10,3 +10,7 @@ accueil:
     route: index
     permanent: true
 
+authentication_token:
+  path: /api/login
+  methods: ['POST']
+
