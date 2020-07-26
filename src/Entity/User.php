@@ -100,6 +100,8 @@ class User implements UserInterface
     private $phone;
 
     /**
+     *
+     * @Groups("user:read")
      * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="user")
      */
     private $projects;

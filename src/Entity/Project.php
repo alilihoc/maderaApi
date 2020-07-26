@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     itemOperations={"get"}
  * )
  * @ApiFilter(SearchFilter::class,
- *     properties={"user": "exact", "name"="partial"})
+ *     properties={"user": "exact", "user": "exact", "name"="partial"})
  */
 class Project
 {
@@ -52,7 +52,7 @@ class Project
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="projects", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read:project","post:project"})
+     * @Groups({"read:project","post:project","user:read"})
      */
     private $customer;
 
@@ -64,13 +64,12 @@ class Project
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
-     * @Groups("post:project")
      */
     private $payment;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Plan", cascade={"persist", "remove"})
-     * @Groups({"read:project","customer:project"})
+     * @Groups({"read:project","post:project"})
      */
     private $plan;
 

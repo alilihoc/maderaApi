@@ -13,14 +13,10 @@ use App\Entity\Module;
 use App\Entity\Plan;
 use App\Entity\Quotation;
 use Doctrine\Common\Persistence\ObjectManager;
-use PhpParser\Node\Stmt\Foreach_;
+use Doctrine\ORM\EntityManagerInterface;
 
 class QuotationService
 {
-    /**
-     * @var Plan
-     */
-    private $plan;
 
     /**
      * @var int
@@ -33,7 +29,7 @@ class QuotationService
     private $tva = 1.20;
 
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
     private $manager;
 
@@ -45,38 +41,36 @@ class QuotationService
 
     /**
      * QuotationService constructor.
-     * @param Plan $plan
-     * @param ObjectManager $manager
+     * @param EntityManagerInterface $manager
      */
-    public function __construct(Plan $plan,  $manager)
+    public function __construct( EntityManagerInterface $manager)
     {
-        $this->plan = $plan;
-        $this->manager =  $this->getDoctrine()->getManager();;
+        $this->manager =  $manager;;
     }
 
-    public function calculateQuotation() {
+    public function calculateQuotation(Plan $plan) {
 
-        Foreach ($this->plan->getModules() as $module){
+        Foreach ($plan->getModules() as $module){
             $modulePrice = $this->calculateModulePrice($module);
             $this->priceHt += $modulePrice;
         }
 
-        $quotation = $this->plan->getQuotation()? $this->plan->getQuotation() : new Quotation();
+        $quotation = $plan->getQuotation() ? $plan->getQuotation() : new Quotation();
         $date = new \DateTime();
         $dateString = $date->format('Y-m-d H:i:s');
         $quotation->setPrixHT($this->priceHt)
-                  ->setPrixTTC($this->priceHt*$this->tva)
+                  ->setPrixTTC($this->priceHt * $this->tva)
                   ->setLabel("Devis ".$dateString);
-        $this->plan->setQuotation($quotation);
+        $plan->setQuotation($quotation);
         $this->manager->persist($quotation);
         $this->manager->flush();
 
     }
 
-    private function calculateModulePrice(Module $module) {
+    public function calculateModulePrice(Module $module) {
         $length = $module->getLength();
         if (in_array($module->getType()->getLabel(), $this::$squareMeters)){
-            $length = $length* $module->getWidth();
+            $length = $length * $module->getWidth();
         }
         $finitionPrice   = $module->getFinition() ? $length * $module->getFinition()->getPrice(): 0;
         $coveragePrice   = $module->getCoverage() ? $length * $module->getCoverage()->getPrice(): 0;

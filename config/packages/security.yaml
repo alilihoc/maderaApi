@@ -38,6 +38,7 @@ security:
     access_control:
         - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/customers, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/projects, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/api/customers, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/api/projects, roles: IS_AUTHENTICATED_FULLY }
+#        - { path: ^/api/gammes, roles: IS_AUTHENTICATED_FULLY }

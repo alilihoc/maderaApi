@@ -1,15 +1,18 @@
 <?php
+
+
 namespace App\DataPersister;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Entity\Module;
+use App\Entity\Project;
+use App\Entity\User;
+use App\Service\Quotation\QuotationService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- *
- */
-class UserDataPersister implements ContextAwareDataPersisterInterface
+class ModuleDataPersister implements ContextAwareDataPersisterInterface
 {
     private $_entityManager;
     private $_passwordEncoder;
@@ -27,26 +30,17 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
      */
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof User;
+        return $data instanceof Module;
     }
 
     /**
-     * @param User $data
+     * @param Module $data
      * @param array $context
      */
     public function persist($data, array $context = [])
     {
-        if ($data->getPlainPassword()) {
-            $data->setPassword(
-                $this->_passwordEncoder->encodePassword(
-                    $data,
-                    $data->getPlainPassword()
-                )
-            );
-
-            $data->eraseCredentials();
-        }
-
+        $qService = new QuotationService($this->_entityManager);
+        $qService->calculateModulePrice($data);
         $this->_entityManager->persist($data);
         $this->_entityManager->flush();
     }

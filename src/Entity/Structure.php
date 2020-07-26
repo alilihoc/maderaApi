@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StructureRepository")
+ * @ApiResource(normalizationContext={"structure:read"})
  */
 class Structure
 {
@@ -15,13 +18,16 @@ class Structure
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"structure:read",  "plan:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"structure:read",  "plan:read"})
      */
-    private $name;
+    private $label;
 
     /**
      * @ORM\Column(type="float")
@@ -48,14 +54,14 @@ class Structure
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLabel(): ?string
     {
-        return $this->name;
+        return $this->label;
     }
 
-    public function setName(string $name): self
+    public function setLabel(string $label): self
     {
-        $this->name = $name;
+        $this->label = $label;
 
         return $this;
     }
@@ -120,7 +126,7 @@ class Structure
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getLabel();
     }
 
 }

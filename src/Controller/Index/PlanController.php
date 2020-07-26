@@ -91,7 +91,7 @@ class PlanController extends AbstractController
                 $manager->persist($plan);
             }
             $manager->flush();
-            $quotationService = new QuotationService($plan, $manager);
+            $quotationService = new QuotationService($plan);
             $quotationService->calculateQuotation();
             return $this->redirectToRoute('plan_show', ['id' => $plan->getId()]);
         }

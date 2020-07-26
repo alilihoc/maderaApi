@@ -50,12 +50,12 @@ class AppFixturesData extends Fixture
 
         for ($i = 0; $i < 10; $i++) {
             $floor = new Floor();
-            $floor->setType("type_".$i);
+            $floor->setLabel("floor_".$i);
             $floor->setPrice(mt_rand(15,40));
             $manager->persist($floor);
 
             $structure = new Structure();
-            $structure->setName("structure_".$i);
+            $structure->setLabel("structure_".$i);
             $structure->setPrice(mt_rand(15,40));
             $manager->persist($structure);
 
@@ -64,7 +64,7 @@ class AppFixturesData extends Fixture
             $manager->persist($finition);
 
             $coverage = new Coverage();
-            $coverage->setType("coverage_".$i)->setPrice(mt_rand(15,40));
+            $coverage->setLabel("coverage_".$i)->setPrice(mt_rand(15,40));
             $manager->persist($coverage);
 
             $isolation = new Isolation();
@@ -73,6 +73,7 @@ class AppFixturesData extends Fixture
 
             $gamme = new Gamme();
             $gamme ->setLabel("Gamme_".$i);
+            $gamme->setCoefficient(mt_rand(1,3));
             $manager->persist($gamme);
         }
         $manager->flush();

@@ -2,26 +2,42 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GammeRepository")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read:gamme"}},
+ *     denormalizationContext={"groups"={"post:gamme"}},
+ *     itemOperations={"get"}
+ * )
  */
 class Gamme
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @Groups("read:gamme")
      * @ORM\Column(type="integer")
+     * @Groups({"plan:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:project","read:project","read:gamme","plan:read"})
      */
     private $label;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({"read:project","read:project","read:gamme"})
+     */
+    private $coefficient;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Plan", mappedBy="gamme")
@@ -84,5 +100,21 @@ class Gamme
     public function __toString()
     {
         return $this->getLabel();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCoefficient()
+    {
+        return $this->coefficient;
+    }
+
+    /**
+     * @param mixed $coefficient
+     */
+    public function setCoefficient($coefficient): void
+    {
+        $this->coefficient = $coefficient;
     }
 }

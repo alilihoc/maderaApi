@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CoverageRepository")
+ * @ApiResource(normalizationContext={"coverage:read"})
  */
 class Coverage
 {
@@ -15,13 +18,15 @@ class Coverage
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"coverage:read",  "plan:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"coverage:read",  "plan:read"})
      */
-    private $type;
+    private $label;
 
     /**
      * @ORM\Column(type="float")
@@ -48,14 +53,14 @@ class Coverage
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getLabel(): ?string
     {
-        return $this->type;
+        return $this->label;
     }
 
-    public function setType(string $type): self
+    public function setLabel(string $label): self
     {
-        $this->type = $type;
+        $this->label = $label;
 
         return $this;
     }
@@ -117,6 +122,6 @@ class Coverage
 
     public function __toString()
     {
-        return $this->type;
+        return $this->label;
     }
 }

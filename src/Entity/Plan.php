@@ -2,12 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PlanRepository")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"plan:read"}},
+ *     denormalizationContext={"group"={"plan:write"}},
+ *     collectionOperations={"get","post"},
+ *     itemOperations={"get","delete"},
+ *     paginationClientEnabled=false
+ * )
  */
 class Plan
 {
@@ -15,11 +24,13 @@ class Plan
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read:project", "plan:read", "post:project"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $name;
 
@@ -40,20 +51,20 @@ class Plan
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project", cascade={"persist", "remove"})
+     * @Groups({"plan:write", "plan:write"})
      */
     private $project;
 
 
-
-
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Module", mappedBy="plan", cascade={"persist", "remove"})
+     * @Groups({"plan:write", "plan:read"})
      */
     private $modules;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gamme", inversedBy="plans")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gamme", inversedBy="plans", cascade={"persist", "remove"})
+     * @Groups({"read:project","post:project", "plan:read"})
      */
     private $gamme;
 

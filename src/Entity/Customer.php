@@ -14,7 +14,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     normalizationContext={"groups"={"customer:project"}},
  *     collectionOperations={"get","post"},
  *     itemOperations={"get"},
- *     paginationClientEnabled=false)
+ *     paginationClientEnabled=false
+ * )
  *
  */
 class Customer
@@ -23,7 +24,7 @@ class Customer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read:project","customer:project"})
+     * @Groups({"read:project","customer:project", "user:read"})
      */
     private $id;
 
@@ -53,13 +54,13 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:project","customer:project", "post:project"})
+     * @Groups({"read:project","customer:project", "post:project", "user:read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:project","customer:project", "post:project"})
+     * @Groups({"read:project","customer:project", "post:project", "user:read"})
      */
     private $lastname;
 
@@ -77,7 +78,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customer:project", "post:project"})
+     * @Groups({"customer:project", "post:project", "user:read"})
      */
     private $email;
 
