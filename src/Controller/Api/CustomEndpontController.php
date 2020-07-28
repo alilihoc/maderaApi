@@ -30,7 +30,7 @@ class CustomEndpontController extends AbstractController
      * @return JsonResponse
      */
     public function getAllModulesType(SerializerInterface $serializer) {
-        $types = $this->getDoctrine()->getRepository(Type::class)->findAll();
+        $types = $this->getDoctrine()->getRepository(Type::class)->findAll()
         $return['type'] =  $serializer->serialize($types, 'json', ['groups' => ['type:read']]);
 
         $floor = $this->getDoctrine()->getRepository(Floor::class)->findAll();
@@ -61,8 +61,7 @@ class CustomEndpontController extends AbstractController
      * @return JsonResponse
      * @throws \Exception
      */
-    public function quotation(Plan $plan, QuotationService $quotationService)
-    {
+    public function quotation(Plan $plan, QuotationService $quotationService){
         $quotationService->calculateQuotation($plan);
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
