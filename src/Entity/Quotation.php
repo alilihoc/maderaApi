@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuotationRepository")
+ * @ApiResource(normalizationContext={"quotation:read"})
  */
 class Quotation
 {
@@ -13,11 +16,13 @@ class Quotation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read:project"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:project","post:project"})
      */
     private $label;
 
@@ -42,7 +47,8 @@ class Quotation
     private $prixTTC;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="smallint")
+     * @Groups({"read:project","post:project"})
      */
     private $state;
 
@@ -117,12 +123,12 @@ class Quotation
         return $this;
     }
 
-    public function getState(): ?bool
+    public function getState(): ?int
     {
         return $this->state;
     }
 
-    public function setState(bool $state): self
+    public function setState(int $state): self
     {
         $this->state = $state;
 

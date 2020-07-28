@@ -5,7 +5,7 @@ namespace App\DataPersister;
 
 
 use App\Entity\Project;
-use App\Entity\User;
+use App\Entity\Quotation;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -33,11 +33,19 @@ class ProjectDataPersister implements ContextAwareDataPersisterInterface
     }
 
     /**
-     * @param User $data
+     * @param Project $data
      * @param array $context
      */
     public function persist($data, array $context = [])
     {
+        $plan = $data->getPlan()->setProject($data);
+        $quotation = $plan->getQuotation() ? $plan->getQuotation() : new Quotation();
+        $quotation->setLabel($plan->getName() . "'s quotation");
+        $plan->setQuotation($quotation);
+
+
+        $this->_entityManager->persist($quotation);
+        $this->_entityManager->persist($plan);
         $this->_entityManager->persist($data);
         $this->_entityManager->flush();
     }

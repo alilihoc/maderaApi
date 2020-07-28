@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/plan")
- * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
  */
 class PlanController extends AbstractController
 {
@@ -163,18 +162,17 @@ class PlanController extends AbstractController
 
         return $this->redirectToRoute('plan_index');
     }
+
     /**
      * @Route("/quotation/{id}", name="admin_quotation", methods={"GET"})
      *
      * @param Plan $plan
-     * @return void
+     * @param QuotationService $quotationService
+     * @throws \Exception
      */
-    public function quotation(Plan $plan)
+    public function quotation(Plan $plan, QuotationService $quotationService)
     {
-        if ( $this->getUser() != $plan->getProject()->getUser() ){
-            throw $this->createNotFoundException();
-        }
-
+        $quotationService->calculateQuotation($plan);
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $dompdf = new Dompdf($pdfOptions);
@@ -188,7 +186,7 @@ class PlanController extends AbstractController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("devis.pdf", [
-            "Attachment" => false
+            "Attachment" => 1
         ]);
     }
 }

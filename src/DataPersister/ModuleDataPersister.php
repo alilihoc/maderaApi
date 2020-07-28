@@ -41,6 +41,8 @@ class ModuleDataPersister implements ContextAwareDataPersisterInterface
     {
         $qService = new QuotationService($this->_entityManager);
         $qService->calculateModulePrice($data);
+
+        $data->getPlan()->addModule($data);
         $this->_entityManager->persist($data);
         $this->_entityManager->flush();
     }

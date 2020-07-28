@@ -8,13 +8,18 @@ use App\Entity\Coverage;
 use App\Entity\Finition;
 use App\Entity\Floor;
 use App\Entity\Isolation;
+use App\Entity\Plan;
 use App\Entity\Structure;
 use App\Entity\Type;
 use App\Repository\PlanRepository;
+use App\Service\Quotation\QuotationService;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\Json;
 
 class CustomEndpontController extends AbstractController
 {
@@ -45,5 +50,31 @@ class CustomEndpontController extends AbstractController
 
 
         return new JsonResponse($return);
+    }
+
+
+    /**
+     * @Route("api/quotationHtml/{id}", name="quotaion_html", methods={"GET"})
+     *
+     * @param Plan $plan
+     * @param QuotationService $quotationService
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function quotation(Plan $plan, QuotationService $quotationService)
+    {
+        $quotationService->calculateQuotation($plan);
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+
+        $html = $this->renderView('components/quotation.html.twig', [
+            'plan'  => $plan,
+            'date'=>new \DateTime()
+        ]);
+
+        $dompdf->loadHtml($html);
+
+        return new JsonResponse(['html' => $html]);
     }
 }

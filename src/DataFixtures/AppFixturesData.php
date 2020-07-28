@@ -73,7 +73,7 @@ class AppFixturesData extends Fixture
 
             $gamme = new Gamme();
             $gamme ->setLabel("Gamme_".$i);
-            $gamme->setCoefficient(mt_rand(1,3));
+            $gamme->setCoefficient(mt_rand(10,30)/10);
             $manager->persist($gamme);
         }
         $manager->flush();
