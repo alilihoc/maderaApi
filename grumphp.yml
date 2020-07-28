@@ -1,5 +1,7 @@
 grumphp:
   tasks:
-    phpcs: ~
     phpcsfixer: ~
     phplint: ~
+  ascii:
+    failed: ~
+    succeeded: ~
