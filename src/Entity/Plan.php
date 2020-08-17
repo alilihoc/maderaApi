@@ -46,7 +46,7 @@ class Plan
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Quotation", cascade={"persist", "remove"})
-     * @Groups({"read:project","post:project"})
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $quotation;
 

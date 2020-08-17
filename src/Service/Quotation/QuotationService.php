@@ -35,7 +35,7 @@ class QuotationService
 
     private static $squareMeters = [
         "Plancher sur dalle",
-        "Plancher porteur" ,
+        "Plancher porteur",
         "Couverture"
     ];
 
@@ -43,41 +43,41 @@ class QuotationService
      * QuotationService constructor.
      * @param EntityManagerInterface $manager
      */
-    public function __construct( EntityManagerInterface $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
-        $this->manager =  $manager;;
+        $this->manager = $manager;;
     }
 
-    public function calculateQuotation(Plan $plan) {
+    public function calculateQuotation(Plan $plan)
+    {
 
-        Foreach ($plan->getModules() as $module){
+        Foreach ($plan->getModules() as $module) {
             $modulePrice = $this->calculateModulePrice($module);
             $this->priceHt += $modulePrice;
         }
 
         $quotation = $plan->getQuotation() ? $plan->getQuotation() : new Quotation();
-        $date = new \DateTime();
-        $dateString = $date->format('Y-m-d H:i:s');
         $quotation->setPrixHT($this->priceHt)
-                  ->setPrixTTC($this->priceHt * $this->tva)
-                  ->setLabel("Devis ".$dateString);
+            ->setPrixTTC($this->priceHt * $this->tva)
+            ->setDateCreation(new \DateTime());
         $plan->setQuotation($quotation);
         $this->manager->persist($quotation);
         $this->manager->flush();
 
     }
 
-    public function calculateModulePrice(Module $module) {
+    public function calculateModulePrice(Module $module)
+    {
         $length = $module->getLength();
-        if (in_array($module->getType()->getLabel(), $this::$squareMeters)){
+        if (in_array($module->getType()->getLabel(), $this::$squareMeters)) {
             $length = $length * $module->getWidth();
         }
-        $finitionPrice   = $module->getFinition() ? $length * $module->getFinition()->getPrice(): 0;
-        $coveragePrice   = $module->getCoverage() ? $length * $module->getCoverage()->getPrice(): 0;
-        $floorPrice      = ($module->getFloor())   ? $length * $module->getFloor()->getPrice() : 0;
-        $isolationPrice  = $module->getIsolation()? $length * $module->getIsolation()->getPrice(): 0;
-        $structurePrice  = $module->getStructure()? $length * $module->getStructure()->getPrice(): 0;
-        $modulePrice     = $finitionPrice + $coveragePrice + $floorPrice + $isolationPrice + $structurePrice;
+        $finitionPrice = $module->getFinition() ? $length * $module->getFinition()->getPrice() : 0;
+        $coveragePrice = $module->getCoverage() ? $length * $module->getCoverage()->getPrice() : 0;
+        $floorPrice = ($module->getFloor()) ? $length * $module->getFloor()->getPrice() : 0;
+        $isolationPrice = $module->getIsolation() ? $length * $module->getIsolation()->getPrice() : 0;
+        $structurePrice = $module->getStructure() ? $length * $module->getStructure()->getPrice() : 0;
+        $modulePrice = $finitionPrice + $coveragePrice + $floorPrice + $isolationPrice + $structurePrice;
         $module->setPrice($modulePrice);
         $this->manager->flush();
         return $modulePrice;

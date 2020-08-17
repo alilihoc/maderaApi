@@ -40,7 +40,7 @@ class ProjectDataPersister implements ContextAwareDataPersisterInterface
     {
         $plan = $data->getPlan()->setProject($data);
         $quotation = $plan->getQuotation() ? $plan->getQuotation() : new Quotation();
-        $quotation->setLabel($plan->getName() . "'s quotation");
+        $quotation->setLabel("Quotation");
         $plan->setQuotation($quotation);
 
 

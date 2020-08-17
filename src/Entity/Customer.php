@@ -78,7 +78,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customer:project", "post:project", "user:read"})
+     * @Groups({"customer:project", "post:project", "user:read", "read:project"})
      */
     private $email;
 

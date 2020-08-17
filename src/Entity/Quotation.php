@@ -16,18 +16,19 @@ class Quotation
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read:project"})
+     * @Groups({"read:project", "plan:write", "plan:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read:project","post:project"})
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $dateCreation;
 
@@ -43,12 +44,13 @@ class Quotation
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $prixTTC;
 
     /**
      * @ORM\Column(type="smallint")
-     * @Groups({"read:project","post:project"})
+     * @Groups({"read:project","post:project", "plan:write", "plan:read"})
      */
     private $state;
 

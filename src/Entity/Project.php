@@ -64,6 +64,7 @@ class Project
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Payment", cascade={"persist", "remove"})
+     * @Groups({"read:project"})
      */
     private $payment;
 
